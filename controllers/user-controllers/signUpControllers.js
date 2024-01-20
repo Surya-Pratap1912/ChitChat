@@ -35,7 +35,7 @@ exports.signUp = async (req, res, nex) => {
         });
     }
   } catch (err) {
-    console.log("Error in signUp: ", err);
+    //console.log("Error in signUp: ", err);
     res.status(500).json({ message: "internal server error" });
   }
 };

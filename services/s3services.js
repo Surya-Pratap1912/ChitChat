@@ -38,10 +38,11 @@ const uploadtos3 = (filename, strData, type, time) => {
   return new Promise((resolve, reject) => {
     s3bucket.upload(params, (err, s3response) => {
       if (err) {
-        console.log("err in uploadtos3", err);
+        //console.log("err in uploadtos3", err);
+        
         reject(err);
       } else {
-        console.log("done with uploadto s3 ", s3response);
+        //console.log("done with uploadto s3 ", s3response);
         resolve(s3response.Location);
       }
     });

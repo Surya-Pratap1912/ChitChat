@@ -1,3 +1,7 @@
+const showUsers = document.getElementById('show-users');
+const userInfo = document.getElementById('user-info');
+var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+var screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 const sendMsg = document.querySelector("#send");
 const container = document.getElementById("container");
 const loggedUser = sessionStorage.getItem("loggedInUser");
@@ -13,8 +17,9 @@ var time_diff = new Map();
 back.addEventListener("click", (e) => {
   const contacts = document.getElementsByClassName("contacts");
   const group = document.getElementsByClassName("group");
-
   // console.log(contacts);
+  userInfo.style.display ='flex';
+  showUsers.style.display = 'none';
   contacts[0].style.display = "flex";
   group[0].style.display = "none";
   back.style.display = "none";
@@ -26,7 +31,7 @@ back.addEventListener("click", (e) => {
 var socket = io();
 
 socket.on("connected", (msg) => {
-  // console.log("connected")
+  console.log("connected", msg.messege);
   socket.emit("connected", { user: loggedUser });
 });
 
@@ -38,10 +43,10 @@ socket.on("mms", (data) => {
   // console.log(data);
   const { fileUrl, fileName, type, sentBy, time, groupName } = data;
   const group = sessionStorage.getItem("group");
-  if (group.split(" ")[0] == "opened") {
-    //open group
+  if (group.split(" ")[0] == "opened"){
+    //open group  
     if (group.split(" ")[1] == groupName)
-      printMsg(
+          printMsg(
         { sentBy, text: `${fileName} ${fileUrl}`, time, type },
         loggedUser
       );
@@ -49,7 +54,7 @@ socket.on("mms", (data) => {
 });
 
 socket.on("user-added", (grp, usr) => {
-  // console.log("user-added", grp, usr);
+  console.log("user-added", grp, usr);
   if (loggedUser === usr) {
     printGroup(grp);
     // printUser(groupUser, res.data.admin, groupName);  }
@@ -78,7 +83,7 @@ socket.on("user-removed", (usr, grp) => {
 });
 
 socket.on("received-msg", (msg) => {
-  // console.log("msg received after addmsg", msg);
+  console.log("msg received after addmsg", msg);
   if (messeges[msg.groupName]) {
     messeges[msg.groupName].push(msg);
   } else {
@@ -370,7 +375,8 @@ function printGroup(name) {
     chats.style.display = "flex";
     chats.style.visibility = "visible";
     chats.name = name;
-
+    // console.log('screen height is', screenHeight);
+    
     printGroupUsers(name);
      let obj = {
     user: "#",
@@ -403,16 +409,7 @@ function printGroup(name) {
             );
         });
       });
-    // if (messeges[name]) {
-    //   messeges[name].forEach((msg) => {
-    //     printMsg(
-    //       { sentBy: msg.sentBy, text: msg.msg, time: msg.time, type: "text" },
-    //       loggedUser
-    //     );
-    //   });
-    // }
-
-    // console.log(chats.name,'this')
+    
   });
 
   deleteGroup.addEventListener("click", async (e) => {
@@ -439,7 +436,14 @@ async function printGroupUsers(groupName) {
 
   // console.log(contacts);
   contacts[0].style.display = "none";
+  if(screenWidth > 600)
   group[0].style.display = "flex";
+  if(screenWidth<=600){
+    // chats.style.height = screenHeight;
+    container.style.height = '600px';
+  userInfo.style.display ='none';
+  showUsers.style.display = 'flex';
+  }
   back.style.display = "flex";
 
   const users = document.getElementById("users");
@@ -546,7 +550,7 @@ addUserForm.addEventListener("submit", async (add) => {
       }
     );
 
-    console.log(response);
+    // console.log(response);
 
     add.target[0].value = "";
 
@@ -612,6 +616,18 @@ function send(e) {
     // console.log(messeges);
   }
 
+  // axios
+  //   .post("http://54.226.18.204:10005/send-messege", obj, {
+  //     headers: { Authorization: `Bearer ${token}` },
+  //   })
+  //   .then((result) => {
+  //     console.log(result);
+  //     document.getElementById("input-messege").value = "";
+  //     print();
+  //   })
+  //   .catch((err) => console.log(err));
+
+  // location.reload();
 }
 
 const mediabtn = document.getElementById("mediabtn");
@@ -623,6 +639,7 @@ mediabtn.addEventListener("click", () => {
 media.onchange = function (e) {
   // console.log(e);
   var file = e.target.files[0];
+  if(file){
   var reader = new FileReader();
   const time = new Date().toString();
   const groupName = sessionStorage.getItem("group").split(" ")[1];
@@ -640,6 +657,7 @@ media.onchange = function (e) {
       groupName,
     });
   };
+  // console.log('sending media');
   const fileUrl = URL.createObjectURL(file);
   printMsg(
     {
@@ -653,6 +671,7 @@ media.onchange = function (e) {
 
   reader.readAsArrayBuffer(file);
   media.value = "";
+  }
 };
 
 const closePopupBtn = document.getElementById("close-popup-btn");
@@ -683,3 +702,21 @@ closePopupBtn.addEventListener("click", (e) => {
 // Call the function on page load and window resize
 // window.onload = handleScreenSize;
 // window.onresize = handleScreenSize;
+
+
+
+showUsers.addEventListener('click', (e)=>{
+  e.preventDefault();
+  if(showUsers.name === 'show'){
+  const group = document.getElementsByClassName("group");
+  group[0].style.display = 'flex';
+  showUsers.name = 'hide';
+  showUsers.innerText = 'hide';
+}
+else{
+  const group = document.getElementsByClassName("group");
+  group[0].style.display = 'none';
+  showUsers.name = 'show';
+  showUsers.innerText = 'show';
+  }
+})

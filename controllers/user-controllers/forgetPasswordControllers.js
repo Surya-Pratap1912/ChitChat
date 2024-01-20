@@ -48,8 +48,7 @@ exports.forgetPass = async (req, res, next) => {
           subject: "password reset for getexpanses",
           textContent: `hey there, here is the password reset link for your getexpanse account  http://54.226.18.204:10005/password/resetpassword/${uu_id}`,
         })
-        .then((res) => console.log(res))
-        .catch(console.log);
+        
 
       res.json({
         success: true,
@@ -97,7 +96,7 @@ exports.changePass = async (req, res, next) => {
         .json({ message: "password changed successfully, go to login" });
     }
   } catch (err) {
-    console.log("err in forget pass ", err);
+    //console.log("err in forget pass ", err);
     res.status(500).json({ message: "server error" });
   }
 };

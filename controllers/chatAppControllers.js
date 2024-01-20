@@ -22,7 +22,7 @@ exports.addMessage = async function (msg) {
       throw { status: "user not found" };
     }
   } catch (err) {
-    console.log("error adding msg in catch 1 ", err);
+    //console.log("error adding msg in catch 1 ", err);
 
     throw err;
   }
@@ -38,7 +38,7 @@ exports.getMesseges = async (req, res, next) => {
       res.status(200).json({ msgs: group.messeges, group: groupName });
     }
   } catch (err) {
-    console.error("Error in getMesseges:", err);
+    //console.error("Error in getMesseges:", err);
     res.status(500).json({
       status: "internal server error",
       message: "Something went wrong in get messeges",
@@ -52,7 +52,7 @@ exports.getContacts = async (req, res, next) => {
     const groupNames = user.groups.map((g) => g.groupName);
     res.status(200).json({ groups: groupNames, loggedUser: req.user.userName });
   } catch (err) {
-    console.error("Error in getContacts:", err);
+    //console.error("Error in getContacts:", err);
     res.status(500).json({
       status: "internal server error",
       message: "Something went wrong",
@@ -81,7 +81,7 @@ exports.createGroup = async (req, res) => {
     } else
       res.status(500).json({ messege: "please choose a unique group name" });
   } catch (err) {
-    console.log("err in crt grp ", err);
+    //console.log("err in crt grp ", err);
     res.status(500).json({ messege: "internal error" });
   }
 };
@@ -115,7 +115,7 @@ exports.deleteGroup = async (req, res, next) => {
       }
     }
   } catch (err) {
-    console.log("err in delete group", err);
+    //console.log("err in delete group", err);
     res.status(500).json({ success: false, messege: "internal server error" });
   }
 };
@@ -155,7 +155,7 @@ exports.addUser = async (req, res, next) => {
       return res.status(401).json({ message: "Only admin can add a user" });
     }
   } catch (err) {
-    console.error("Error in addUser:", err);
+    //console.error("Error in addUser:", err);
     return res.status(500).json({
       status: "internal server error",
       message: "Something went wrong",
@@ -195,7 +195,7 @@ exports.getUsers = async (req, res, next) => {
       res.status(200).json({ messege: "group has no user yet" });
     }
   } catch (err) {
-    console.error("Error in getUsers:", err);
+    //console.error("Error in getUsers:", err);
     res.status(500).json({
       status: "internal server error",
       message: "Something went wrong",
@@ -234,7 +234,7 @@ exports.removeUser = async (req, res, next) => {
       return res.status(401).json({ message: "admin cannot be removed" });
     }
   } catch (err) {
-    console.error("Error in deleteUser:", err);
+    //console.error("Error in deleteUser:", err);
     return res.status(500).json({
       status: "internal server error",
       message: "Something went wrong",

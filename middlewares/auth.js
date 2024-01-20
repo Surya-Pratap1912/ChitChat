@@ -23,7 +23,7 @@ const Authenticate = async (req, res, next) => {
       return;
     }
   } catch (err) {
-    console.log("err in auth", err);
+    //console.log("err in auth", err);
     res.status(401).json({ success: false });
   }
 };
