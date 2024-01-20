@@ -10,9 +10,7 @@
   },
   "author": "Maximilian Schwarzmüller",
   "license": "ISC",
-  "devDependencies": {
-    
-  },
+ 
   "dependencies": {
     "aws-sdk": "^2.1439.0",
     "axios": "^1.6.2",
