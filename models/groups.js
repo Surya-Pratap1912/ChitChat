@@ -34,7 +34,7 @@ const groupSchema = new Schema({
         type: String,
         required: true,
       },
-      groupName: {
+      groupName:{
         type: String,
         required: true,
       },
@@ -47,9 +47,10 @@ const groupSchema = new Schema({
   ],
   users: [
     {
-      type: Schema.Types.ObjectId,
-      ref: "Users",
-    },
+        type: Schema.Types.ObjectId,
+        ref: "Users",
+      },
+    
   ],
 });
 
@@ -58,13 +59,13 @@ groupSchema.methods.getusers = function () {
 };
 
 groupSchema.methods.addUser = function (user) {
+  console.log(user);
   this.users.push(user);
   return this.save();
 };
 groupSchema.methods.removeUser = function (user) {
-  const newusrs = this.users.filter(
-    (u) => user._id.toString() !== u._id.toString()
-  );
+  console.log(user);
+  const newusrs = this.users.filter(u => user._id.toString() !== u._id.toString());
   this.users = newusrs;
   return this.save();
 };

@@ -1,52 +1,59 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  email: {
+  email :{
     type: String,
-    required: true,
+    required: true
   },
-  phone: {
+  phone :{
     type: String,
-    required: true,
+    required: true
   },
-  userName: {
+  userName :{
     type: String,
-    required: true,
+    required: true
   },
-  password: {
+  password :{
     type: String,
-    required: true,
+    required: true
   },
-  loggedIn: {
+  loggedIn :{
     type: Boolean,
-    required: true,
+    required: true
   },
-  groups: [
-    {
+  groups:[{
       groupName: {
         type: String,
-        ref: "groups",
-      },
-    },
-  ],
-});
+        ref: 'groups'
+      }
+    }]
+  
+})
 
-userSchema.methods.getGroups = function () {
+
+userSchema.methods.getGroups = function (){
   return this.groups;
-};
+       
+}
 
-userSchema.methods.addGroup = function (group) {
+userSchema.methods.addGroup = function (group){
+  console.log(group);
   this.groups.push(group);
   return this.save();
-};
-userSchema.methods.removeGroup = function (group) {
-  const newGroups = this.groups.filter((g) => {
-    return g._id.toString() !== group._id.toString();
+       
+}
+userSchema.methods.removeGroup = function (group){
+  console.log(group);
+  const newGroups = this.groups.filter(g=>{
+    console.log(g._id.toString(),group._id.toString());
+    return g._id.toString()!== group._id.toString();
   });
-
+  
   this.groups = newGroups;
   return this.save();
-};
+       
+}
 
-module.exports = mongoose.model("Users", userSchema);
+
+module.exports = mongoose.model('Users',userSchema);

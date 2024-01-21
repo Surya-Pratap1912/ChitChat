@@ -15,7 +15,9 @@ require('dotenv').config();
 const server = require('http').createServer(app);
 
 // attching to server
-const io = require('socket.io')(server);
+const io = require('socket.io')(server, {
+  maxHttpBufferSize: 1e8, pingTimeout: 60000
+});
 
 
 const accLogFiles = fs.createWriteStream(path.join(__dirname,'access.log'),{flags : 'a'});
@@ -23,7 +25,8 @@ app.use(morgan('combined',{stream : accLogFiles}));
 
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const dashboardRoutes = require('./routes/dashboardRoutes');
+
+const router = require('./routes/router');
 const userRoutes = require('./routes/userRoutes');
 
 app.use(bodyParser.json());
@@ -34,6 +37,7 @@ app.use(cors(/*{
 }*/))
 app.use(express.static(path.join(__dirname,'public')));
 
+// app.set('views', 'views');
 app.use((req, res, next) => {
   res.setHeader(
       'Content-Security-Policy',
@@ -43,7 +47,7 @@ app.use((req, res, next) => {
 });
 
 
-app.use(dashboardRoutes);
+app.use(router);
 app.use(userRoutes);
 
 const socketControllers = require('./controllers/socketControllers');
