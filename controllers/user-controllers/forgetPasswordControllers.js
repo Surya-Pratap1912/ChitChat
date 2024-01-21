@@ -51,7 +51,7 @@ exports.forgetPass = async (req, res, next) => {
           sender,
           to: receiver,
           subject: "password reset for getexpanses",
-          textContent: `hey there, here is the password reset link for your getexpanse account  http:// 54.226.18.204:10000/password/resetpassword/${uu_id}`,
+          textContent: `hey there, here is the password reset link for your getexpanse account  http://54.226.18.204:10000/password/resetpassword/${uu_id}`,
         })
         .then((res) =>  console.log(res))
         .catch( console.log);
