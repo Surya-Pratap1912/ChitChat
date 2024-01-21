@@ -119,7 +119,7 @@ console.log(token);
 
 document.getElementById("logout").addEventListener("click", () => {
   axios
-    .get(`http:// 54.226.18.204:10000/logout`, {
+    .get(`http://54.226.18.204:10000/logout`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((resp) => {
@@ -162,7 +162,7 @@ async function print() {
     const group = sessionStorage.getItem("group");
     console.log(group);
     const res = await axios
-      .get("http:// 54.226.18.204:10000/get-contacts", {
+      .get("http://54.226.18.204:10000/get-contacts", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -183,7 +183,7 @@ async function print() {
       chats.style.display = "flex";
       chats.style.visibility = "visible";
       await axios
-        .get(`http:// 54.226.18.204:10000/get-messeges`, {
+        .get(`http://54.226.18.204:10000/get-messeges`, {
           params: { name: group.split(" ")[1] },
           headers: { Authorization: `Bearer ${token}` },
         })
@@ -326,7 +326,7 @@ groupForm.addEventListener("submit", async (e) => {
     // console.log(e.target[0].value);
     await axios
       .post(
-        "http:// 54.226.18.204:10000/create-group",
+        "http://54.226.18.204:10000/create-group",
         { groupName: groupName.trim() },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -388,7 +388,7 @@ function printGroup(name) {
 
     while (container.firstChild && !container.lastChild.remove());
     await axios
-      .get(`http:// 54.226.18.204:10000/get-messeges`, {
+      .get(`http://54.226.18.204:10000/get-messeges`, {
         params: { name },
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -423,7 +423,7 @@ function printGroup(name) {
 
   deleteGroup.addEventListener("click", async (e) => {
     e.preventDefault();
-    const resp = await axios.delete(`http:// 54.226.18.204:10000/delete-group`, {
+    const resp = await axios.delete(`http://54.226.18.204:10000/delete-group`, {
       params: { name },
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -464,7 +464,7 @@ async function printGroupUsers(groupName) {
   while (users.firstChild && !users.lastChild.remove());
 
   await axios
-    .get("http:// 54.226.18.204:10000/get-users", {
+    .get("http://54.226.18.204:10000/get-users", {
       headers: { Authorization: `Bearer ${token}`, group: groupName },
     })
     .then((res) => {
@@ -519,7 +519,7 @@ function printUser(groupUser, adm, groupName) {
 
   remove.addEventListener("click", async (e) => {
     e.preventDefault();
-    axios.delete(`http:// 54.226.18.204:10000/remove-user`, {
+    axios.delete(`http://54.226.18.204:10000/remove-user`, {
       params: { groupName, groupUser },
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -552,7 +552,7 @@ addUserForm.addEventListener("submit", async (add) => {
     const groupName = document.getElementById("group-name").innerText;
     console.log(addUser, "user", groupName);
     const response = await axios.post(
-      "http:// 54.226.18.204:10000/group/add-user",
+      "http://54.226.18.204:10000/group/add-user",
       { groupName, addUser },
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -626,7 +626,7 @@ function send(e) {
   }
 
   // axios
-  //   .post("http:// 54.226.18.204:10000/send-messege", obj, {
+  //   .post("http://54.226.18.204:10000/send-messege", obj, {
   //     headers: { Authorization: `Bearer ${token}` },
   //   })
   //   .then((result) => {

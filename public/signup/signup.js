@@ -36,7 +36,7 @@ form.addEventListener("submit", (e) => {
       
     };
     console.log(user);
-    axios.post('http:// 54.226.18.204:10000/users/signUp',user)
+    axios.post('http://54.226.18.204:10000/users/signUp',user)
     .then(res =>{
       console.log(res);
       const note = document.getElementById('sign-note');

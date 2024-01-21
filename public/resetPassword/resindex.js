@@ -31,9 +31,9 @@ form.addEventListener("submit", (e) => {
     const uu_id = window.location.pathname.split('/').pop();
 const requestData = { uu_id, password };
     // form.action = window.location.href;
-    // http:// 54.226.18.204:3000/password/change-password", {password}
+    // http://54.226.18.204:3000/password/change-password", {password}
     axios
-      .post("http:// 54.226.18.204:10000/password/resetpassword",requestData)
+      .post("http://54.226.18.204:10000/password/resetpassword",requestData)
       .then((res) => {
         console.log("res ",res);
         window.alert(res.data.message);

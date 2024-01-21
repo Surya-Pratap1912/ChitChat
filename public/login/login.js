@@ -19,7 +19,7 @@ form.addEventListener("submit", (e) => {
   };
   console.log(user);
   axios
-    .post("http:// 54.226.18.204:10000/users/login", user)
+    .post("http://54.226.18.204:10000/users/login", user)
     .then((res) => {
       console.log(res.data);
       sessionStorage.setItem('token', res.data.token);
