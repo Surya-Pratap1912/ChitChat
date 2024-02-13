@@ -1,5 +1,4 @@
 const form = document.getElementById("myform");
-// document.gete
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -44,8 +43,6 @@ form.addEventListener("submit", (e) => {
         note.style.color = 'white';
         note.innerText = `${res.data.message}`;
         password.value = '';
-      // window.alert(res.data.message);
-      // location.reload();
     })
     .catch(err=>{
       console.log(err);

@@ -1,7 +1,13 @@
-const showUsers = document.getElementById('show-users');
-const userInfo = document.getElementById('user-info');
-var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-var screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+const showUsers = document.getElementById("show-users");
+const userInfo = document.getElementById("user-info");
+var screenWidth =
+  window.innerWidth ||
+  document.documentElement.clientWidth ||
+  document.body.clientWidth;
+var screenHeight =
+  window.innerHeight ||
+  document.documentElement.clientHeight ||
+  document.body.clientHeight;
 const sendMsg = document.querySelector("#send");
 const container = document.getElementById("container");
 const loggedUser = sessionStorage.getItem("loggedInUser");
@@ -18,8 +24,8 @@ back.addEventListener("click", (e) => {
   const contacts = document.getElementsByClassName("contacts");
   const group = document.getElementsByClassName("group");
   // console.log(contacts);
-  userInfo.style.display ='flex';
-  showUsers.style.display = 'none';
+  userInfo.style.display = "flex";
+  showUsers.style.display = "none";
   contacts[0].style.display = "flex";
   group[0].style.display = "none";
   back.style.display = "none";
@@ -43,10 +49,10 @@ socket.on("mms", (data) => {
   console.log(data);
   const { fileUrl, fileName, type, sentBy, time, groupName } = data;
   const group = sessionStorage.getItem("group");
-  if (group.split(" ")[0] == "opened"){
-    //open group  
+  if (group.split(" ")[0] == "opened") {
+    //open group
     if (group.split(" ")[1] == groupName)
-          printMsg(
+      printMsg(
         { sentBy, text: `${fileName} ${fileUrl}`, time, type },
         loggedUser
       );
@@ -58,17 +64,15 @@ socket.on("user-added", (grp, usr) => {
   if (loggedUser === usr) {
     printGroup(grp);
     // printUser(groupUser, res.data.admin, groupName);  }
-  }else{
+  } else {
     const group = sessionStorage.getItem("group");
     if (group.split(" ")[0] == "opened") {
-      if(group.split(" ")[1] == grp){
-      printGroupUsers(grp);
-
+      if (group.split(" ")[1] == grp) {
+        printGroupUsers(grp);
+      }
     }
   }
-}
-}
-);
+});
 socket.on("user-removed", (usr, grp) => {
   console.log("user-removed", grp, usr);
   if (loggedUser === usr) {
@@ -78,7 +82,6 @@ socket.on("user-removed", (usr, grp) => {
     // document.getElementById(usr).remove();
     console.log("user-r");
     printGroupUsers(grp);
-
   }
 });
 
@@ -199,7 +202,6 @@ async function print() {
                 text: msg.text,
                 time: msg.time,
                 type: msg.type,
-                
               },
               loggedUser
             );
@@ -222,16 +224,15 @@ async function print() {
 
 function printMsg({ sentBy, text, time, type, groupName }, user) {
   let pre;
-  if(time_diff.get(groupName))
-  {
-    pre=  time_diff.get(groupName);
-  }
-  else pre = {
-    user: "",
-    day: 0,
-    hr: 0,
-    min: 0,
-  };
+  if (time_diff.get(groupName)) {
+    pre = time_diff.get(groupName);
+  } else
+    pre = {
+      user: "",
+      day: 0,
+      hr: 0,
+      min: 0,
+    };
   // console.log(time, user, pre);
   const day = time.slice(0, 3);
   const hr = time.slice(16, 18);
@@ -239,14 +240,18 @@ function printMsg({ sentBy, text, time, type, groupName }, user) {
   // console.log()
   let differs = false;
   const time_on_screen = document.createElement("h6");
- 
+
   // console.log('diff ' , (+min - +pre.min) )
   // console.log(time_diff.hr, hr);
-  if ((time_diff.day == "" || pre.day != day)||(pre.hr != hr || Math.abs(+pre.min - +min) >= 3)) {
-   
+  if (
+    time_diff.day == "" ||
+    pre.day != day ||
+    pre.hr != hr ||
+    Math.abs(+pre.min - +min) >= 3
+  ) {
     time_on_screen.innerText = `${hr} : ${min} ${day}`;
     container.appendChild(time_on_screen);
-  } 
+  }
 
   const chat = document.createElement("div");
   const userName = document.createElement("h5");
@@ -301,12 +306,12 @@ function printMsg({ sentBy, text, time, type, groupName }, user) {
     container.appendChild(chat);
   }
   pre = {
-    user:sentBy,
+    user: sentBy,
     day,
     hr,
     min,
   };
-  time_diff.set(groupName,pre);
+  time_diff.set(groupName, pre);
   container.lastElementChild.scrollIntoView();
 
   // img.onload = function(){
@@ -376,15 +381,15 @@ function printGroup(name) {
     chats.style.visibility = "visible";
     chats.name = name;
     // console.log('screen height is', screenHeight);
-    
+
     printGroupUsers(name);
-     let obj = {
-    user: "#",
-    day: 0,
-    hr: 0,
-    min: 0,
-  };
-    time_diff.set(name,obj);
+    let obj = {
+      user: "#",
+      day: 0,
+      hr: 0,
+      min: 0,
+    };
+    time_diff.set(name, obj);
 
     while (container.firstChild && !container.lastChild.remove());
     await axios
@@ -405,8 +410,8 @@ function printGroup(name) {
               groupName: msg.groupName,
               length,
             },
-            loggedUser,
-            );
+            loggedUser
+          );
         });
       });
     // if (messeges[name]) {
@@ -443,24 +448,17 @@ async function printGroupUsers(groupName) {
   const group = document.getElementsByClassName("group");
   document.getElementById("group-name").innerText = groupName;
 
-  // console.log(contacts);
   contacts[0].style.display = "none";
-  if(screenWidth > 600)
-  group[0].style.display = "flex";
-  if(screenWidth<=600){
-    // chats.style.height = screenHeight;
-    container.style.height = '800px';
-  userInfo.style.display ='none';
-  showUsers.style.display = 'flex';
+  if (screenWidth > 600) group[0].style.display = "flex";
+  if (screenWidth <= 600) {
+    container.style.height = "800px";
+    userInfo.style.display = "none";
+    showUsers.style.display = "flex";
   }
   back.style.display = "flex";
 
   const users = document.getElementById("users");
   addUserForm.style.visibility = "hidden";
-
-  // users.innerHTML = ''; //slower
-  // users.textContent = '';
-
   while (users.firstChild && !users.lastChild.remove());
 
   await axios
@@ -475,8 +473,6 @@ async function printGroupUsers(groupName) {
       });
       if (sessionStorage.getItem("loggedInUser") == res.data.admin)
         addUserForm.style.visibility = "visible";
-
-      // else addUserForm.style.visibility = "hidden";
     })
     .catch((err) => {
       console.log("error in get users");
@@ -501,7 +497,6 @@ function printUser(groupUser, adm, groupName) {
   remove.innerText = "remove";
   admin.innerText = "admin";
   admin.style.color = "green";
-  // console.log(userName);
   icon.src = "/src/user.svg";
   user.className = "user";
   user.id = groupUser;
@@ -528,19 +523,6 @@ function printUser(groupUser, adm, groupName) {
     user.remove();
   });
 }
-
-// back.addEventListener("click", (e) => {
-//   const contacts = document.getElementsByClassName("contacts");
-//   const group = document.getElementsByClassName("group");
-
-//   // console.log(contacts);
-//   contacts[0].style.display = "flex";
-//   group[0].style.display = "none";
-//   back.style.display = "none";
-//   chats.style.display = "none";
-//   chats.style.visibility = "hidden";
-//   sessionStorage.setItem("group", "closed");
-// });
 
 //                adding users to group
 
@@ -573,13 +555,12 @@ addUserForm.addEventListener("submit", async (add) => {
       let time = new Date();
       time.toString();
       const msg = {
-        msg:`${response.data.user} joined`,
+        msg: `${response.data.user} joined`,
         sentBy: loggedUser,
         time,
         type: "log",
         groupName,
       };
-       
     }
   } catch (error) {
     console.error("Error in add-user:", error);
@@ -596,9 +577,6 @@ function send(e) {
   const text = document.getElementById("input-messege");
 
   console.log(text.value);
-  // obj = {
-  //   msg,
-  // };
   if (text.value != "") {
     const time = new Date().toString();
     console.log(time, text.value);
@@ -624,19 +602,6 @@ function send(e) {
 
     console.log(messeges);
   }
-
-  // axios
-  //   .post("http://54.226.18.204:10000/send-messege", obj, {
-  //     headers: { Authorization: `Bearer ${token}` },
-  //   })
-  //   .then((result) => {
-  //     console.log(result);
-  //     document.getElementById("input-messege").value = "";
-  //     print();
-  //   })
-  //   .catch((err) => console.log(err));
-
-  // location.reload();
 }
 
 const mediabtn = document.getElementById("mediabtn");
@@ -648,38 +613,38 @@ mediabtn.addEventListener("click", () => {
 media.onchange = function (e) {
   console.log(e);
   var file = e.target.files[0];
-  if(file){
-  var reader = new FileReader();
-  const time = new Date().toString();
-  const groupName = sessionStorage.getItem("group").split(" ")[1];
+  if (file) {
+    var reader = new FileReader();
+    const time = new Date().toString();
+    const groupName = sessionStorage.getItem("group").split(" ")[1];
 
-  reader.onload = function (loadEvent) {
-    var buffer = new Uint8Array(loadEvent.target.result);
-    var type = file.type;
-    console.log("hei bfr", buffer, type);
-    socket.emit("mms", {
-      fileName: file.name,
-      buffer,
-      type,
-      sentBy: loggedUser,
-      time,
-      groupName,
-    });
-  };
-  console.log('sending media');
-  const fileUrl = URL.createObjectURL(file);
-  printMsg(
-    {
-      sentBy: loggedUser,
-      text: `${file.name} ${fileUrl}`,
-      time,
-      type: file.type,
-    },
-    loggedUser
-  );
+    reader.onload = function (loadEvent) {
+      var buffer = new Uint8Array(loadEvent.target.result);
+      var type = file.type;
+      console.log("hei bfr", buffer, type);
+      socket.emit("mms", {
+        fileName: file.name,
+        buffer,
+        type,
+        sentBy: loggedUser,
+        time,
+        groupName,
+      });
+    };
+    console.log("sending media");
+    const fileUrl = URL.createObjectURL(file);
+    printMsg(
+      {
+        sentBy: loggedUser,
+        text: `${file.name} ${fileUrl}`,
+        time,
+        type: file.type,
+      },
+      loggedUser
+    );
 
-  reader.readAsArrayBuffer(file);
-  media.value = "";
+    reader.readAsArrayBuffer(file);
+    media.value = "";
   }
 };
 
@@ -692,40 +657,17 @@ closePopupBtn.addEventListener("click", (e) => {
   popupContainer.lastChild.remove();
 });
 
-// handling the screen sizes
-// const smallSizeNav = document.getElementById("for-small-size");
-// function handleScreenSize() {
-//   var screenWidth = window.innerWidth;
-//   const groupOpened = sessionStorage.getItem("group");
-//   if (groupOpened.split(" ")[0] == "opened") {
-//     if (screenWidth < 725) {
-//       smallSizeNav.style.display = "block";
-//       group.style.display = "none";
-//     } else {
-//       smallSizeNav.style.display = "none";
-//       group.style.display = "flex";
-//     }
-//   }
-// }
-
-// Call the function on page load and window resize
-// window.onload = handleScreenSize;
-// window.onresize = handleScreenSize;
-
-
-
-showUsers.addEventListener('click', (e)=>{
+showUsers.addEventListener("click", (e) => {
   e.preventDefault();
-  if(showUsers.name === 'show'){
-  const group = document.getElementsByClassName("group");
-  group[0].style.display = 'flex';
-  showUsers.name = 'hide';
-  showUsers.innerText = 'hide';
-}
-else{
-  const group = document.getElementsByClassName("group");
-  group[0].style.display = 'none';
-  showUsers.name = 'show';
-  showUsers.innerText = 'show';
+  if (showUsers.name === "show") {
+    const group = document.getElementsByClassName("group");
+    group[0].style.display = "flex";
+    showUsers.name = "hide";
+    showUsers.innerText = "hide";
+  } else {
+    const group = document.getElementsByClassName("group");
+    group[0].style.display = "none";
+    showUsers.name = "show";
+    showUsers.innerText = "show";
   }
-})
+});
